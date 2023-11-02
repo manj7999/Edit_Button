@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="saveToLocalStorage(event)">
+        <label>Name</label>
+        <input type="text" name="username" required>
+        <label>Email Id</label>
+        <input type="email" name="emailId" required>
+        <label>Phone Number</label>
+        <input type="tel" name="phoneNumber">
+        <button type="submit">Submit</button>
+    </form>
+    <ul id="listOfitems"></ul>
+
+    <script>
+        function saveToLocalStorage(event) {
+            event.preventDefault();
+            const name = event.target.username.value;
+            const email = event.target.emailId.value;
+            const phoneNumber = event.target.phoneNumber.value;
+
+            const obj = {
+                name,
+                email,
+                phoneNumber
+            }
+            localStorage.setItem(obj.email, JSON.stringify(obj));
+            showUserOnScreen(obj);
+        }
+
+        function showUserOnScreen(obj) {
+            const parentElem = document.getElementById('listOfitems');
+            const listItem = document.createElement('li');
+            listItem.textContent = obj.name + ' - ' + obj.email + ' - ' + obj.phoneNumber;
+
+            // Create an "Edit" button
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.onclick = function () {
+                // You can implement the edit functionality here
+                // For example, you can populate the form fields with the user's data for editing.
+                document.querySelector('input[name="username"]').value = obj.name;
+                document.querySelector('input[name="emailId"]').value = obj.email;
+                document.querySelector('input[name="phoneNumber"]').value = obj.phoneNumber;
+            };
+
+            // Append the "Edit" button to the list item
+            listItem.appendChild(editButton);
+
+            // Append the list item to the list
+            parentElem.appendChild(listItem);
+        }
+    </script>
+</body>
+</html>
+
+
+
